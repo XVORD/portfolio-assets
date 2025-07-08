@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christopher Satya F.B. | Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Menggunakan font Inter sebagai default */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* slate-900 */
+            color: #cbd5e1; /* slate-300 */
+        }
+        body.modal-open {
+            overflow: hidden;
+        }
+        /* Efek gradien baru yang lebih berwarna */
+        .hero-gradient {
+            background: linear-gradient(135deg, #0c4a6e 0%, #0f172a 100%); /* cyan-900 to slate-900 */
+        }
+        /* Efek bayangan dan glow yang lebih modern */
+        .custom-shadow {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 10px -1px rgb(0 0 0 / 0.1), 0 2px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .custom-shadow:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 20px -3px rgb(0 0 0 / 0.1), 0 4px 8px -4px rgb(0 0 0 / 0.1), 0 0 30px 0px rgba(34, 211, 238, 0.1); /* Cyan glow */
+        }
+        /* Animasi fade-in saat scroll */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Style untuk tag/chip keahlian */
+        .skill-chip {
+             background-color: #1e293b; /* slate-800 */
+             color: #94a3b8; /* slate-400 */
+             transition: all 0.2s ease-in-out;
+        }
+        .skill-chip:hover {
+            background-color: #0891b2; /* cyan-600 */
+            color: white;
+        }
+        /* Background pattern yang lebih halus */
+        .pattern-bg {
+            background-color: #0f172a; /* slate-900 */
+        }
+        /* Style untuk Timeline */
+        .timeline-item {
+            transition: all 0.4s ease-in-out;
+        }
+        .timeline-item .timeline-dot {
+            position: absolute;
+            left: -31px;
+            top: 20px;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background-color: #0f172a; /* slate-900 */
+            border: 3px solid #0ea5e9; /* sky-500 */
+        }
+        /* Achievement Section Style */
+        .achievement-card-content {
+            background: linear-gradient(135deg, #0e7490, #1d4ed8); /* cyan-700 to blue-700 */
+        }
+        /* Filter Button Style */
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            background-color: #1e293b; /* slate-800 */
+            color: #94a3b8; /* slate-400 */
+            border: 2px solid transparent;
+        }
+        .filter-btn.active {
+            background-color: #1e293b; /* slate-800 */
+            color: #38bdf8; /* sky-400 */
+            border-color: #0ea5e9; /* sky-500 */
+        }
+        /* About Me Tabs */
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            color: #94a3b8; /* slate-400 */
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            color: #38bdf8; /* sky-400 */
+            border-bottom-color: #38bdf8;
+        }
+        .tab-content {
+            transition: opacity 0.3s ease-in-out;
+        }
+        /* Project Slider */
+        #project-slider-wrapper {
+            touch-action: pan-y;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigasi -->
+    <header id="header" class="bg-slate-900/80 backdrop-blur-lg sticky top-0 z-40 shadow-md shadow-black/10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-extrabold text-white tracking-tight">Christopher Satya</a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#about" class="text-slate-300 hover:text-sky-400 transition-colors font-medium">About</a>
+                <a href="#projects" class="text-slate-300 hover:text-sky-400 transition-colors font-medium">Projects</a>
+                <a href="#experience" class="text-slate-300 hover:text-sky-400 transition-colors font-medium">Experience</a>
+                <a href="#achievements" class="text-slate-300 hover:text-sky-400 transition-colors font-medium">Achievements</a>
+                <a href="#contact" class="bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-sky-600 transition-all font-semibold shadow-sm">Contact Me</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-slate-200 text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-700 bg-slate-900">
+            <a href="#about" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">About</a>
+            <a href="#projects" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Projects</a>
+            <a href="#experience" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Experience</a>
+            <a href="#achievements" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Achievements</a>
+            <a href="#contact" class="block py-3 px-6 text-slate-300 hover:bg-slate-800">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white">
+            <div class="container mx-auto flex flex-col items-center px-6 py-24 md:py-32 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight text-slate-100">Christopher Satya F.B.</h1>
+                <p class="text-lg md:text-2xl text-sky-300 mb-8 max-w-3xl">Computer Engineering Student passionate in Data System Analytics, Machine Learning, and Artificial Intelligence.</p>
+                <div class="flex justify-center md:justify-center space-x-4">
+                    <a href="#contact" class="bg-sky-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-sky-600 transition-all shadow-lg">Contact Me</a>
+                    <a href="#projects" class="border-2 border-sky-400 text-sky-300 font-bold py-3 px-6 rounded-lg hover:bg-sky-400 hover:text-white transition-all">View Projects</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tentang Saya -->
+        <section id="about" class="py-24 bg-slate-800 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/3 text-center">
+                        <img src="Me.jpeg" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x400/818cf8/ffffff?text=Your+Photo';"
+                             alt="Foto profil Christopher Satya" 
+                             class="rounded-full shadow-2xl mx-auto border-8 border-slate-700">
+                    </div>
+                    <div class="md:w-2/3 text-center md:text-left">
+                        <h2 class="text-3xl font-bold mb-4 text-slate-100">About Me</h2>
+                        <p class="text-lg text-slate-300 mb-6">
+                            I’m a 7th semester Computer Engineering student at Universitas Indonesia and passionate about developing innovative solutions in software, hardware, data and cybersecurity. Over the past three years, I have developed skills in  Python, Power BI, Cisco networking and more. I'm ethusiastic about gaining practical experience and expanding my skills in these fields
+                        </p>
+                         <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+                            <a href="CV_Christopher Satya Fredella Balakosa.pdf" download="CV-Christopher-Satya.pdf" class="bg-sky-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-sky-600 transition-all shadow-md w-full sm:w-auto text-center">
+                                <i class="fas fa-download mr-2"></i>Download CV
+                            </a>
+                             <div class="flex justify-center md:justify-start space-x-6">
+                                <a href="https://www.linkedin.com/in/christophersatya/" target="_blank" class="text-slate-400 hover:text-sky-400 transition-colors text-3xl" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://github.com/XVORD" target="_blank" class="text-slate-400 hover:text-sky-400 transition-colors text-3xl" title="GitHub"><i class="fab fa-github"></i></a>
+                                <a href="mailto:christophersatya4@gmail.com" class="text-slate-400 hover:text-sky-400 transition-colors text-3xl" title="Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tabs untuk Pendidikan, Sertifikat, Keahlian -->
+                <div class="mt-20">
+                    <div id="about-tabs" class="border-b border-slate-700 flex justify-center gap-4 md:gap-8">
+                        <button data-tab="education" class="tab-btn active">Education</button>
+                        <button data-tab="certificates" class="tab-btn">Certificates</button>
+                        <button data-tab="skills" class="tab-btn">Skills</button>
+                    </div>
+                    <div id="about-tabs-content" class="mt-8">
+                        <!-- Konten Pendidikan -->
+                        <div data-tab-content="education" class="tab-content">
+                             <div class="max-w-3xl mx-auto space-y-6">
+                                <div class="bg-slate-900 p-6 sm:p-8 rounded-lg shadow-sm border border-slate-700">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h3 class="text-xl font-bold text-sky-400">Universitas Indonesia</h3>
+                                            <p class="text-md text-slate-300">Bachelor of Computer Engineering</p>
+                                            <p class="text-sm text-slate-400">July 2022 - Sept 2026 (Expected)</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="text-lg font-semibold text-sky-400">GPA: 3.52/4.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-900 p-6 sm:p-8 rounded-lg shadow-sm border border-slate-700">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h3 class="text-xl font-bold text-sky-400">SMAK 3 Penabur Jakarta</h3>
+                                            <p class="text-md text-slate-300">Natural Sciences</p>
+                                            <p class="text-sm text-slate-400">2019 - 2022</p>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                        <!-- Konten Sertifikat -->
+                        <div data-tab-content="certificates" class="tab-content hidden">
+                            <div class="max-w-3xl mx-auto space-y-4">
+                                <!-- Certificate Card 1 -->
+                                <div class="flex items-center gap-4 p-4 bg-slate-900 rounded-lg shadow-sm border border-slate-700">
+                                    <img src="https://raw.githubusercontent.com/XVORD/portfolio-assets/Matlab.jpg" onerror="this.onerror=null;this.src='https://placehold.co/48x48/0076a8/ffffff?text=MW';" alt="MathWorks Logo" class="w-12 h-12 rounded-full bg-white">
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-slate-100">Computer Vision Onramp</h4>
+                                        <p class="text-sm text-slate-400">MathWorks &middot; Issued Jul 2025</p>
+                                    </div>
+                                    <a href="https://raw.githubusercontent.com/XVORD/portfolio-assets/Mathwork.pdf" target="_blank" class="bg-sky-500/10 text-sky-400 font-semibold py-2 px-4 rounded-lg hover:bg-sky-500/20 transition-colors text-sm whitespace-nowrap">See Credential</a>
+                                </div>
+                                <!-- Certificate Card 2 -->
+                                <div class="flex items-center gap-4 p-4 bg-slate-900 rounded-lg shadow-sm border border-slate-700">
+                                    <img src="https://raw.githubusercontent.com/XVORD/portfolio-assets/huawei.png" onerror="this.onerror=null;this.src='https://placehold.co/48x48/ef4444/ffffff?text=HW';" alt="Huawei Logo" class="w-12 h-12 rounded-full bg-white">
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-slate-100">HCIA-Cloud Computing V5.5</h4>
+                                        <p class="text-sm text-slate-400">Huawei &middot; Issued Mar 2025</p>
+                                    </div>
+                                    <a href="https://raw.githubusercontent.com/XVORD/portfolio-assets/Huawei Certificate.png" target="_blank" class="bg-sky-500/10 text-sky-400 font-semibold py-2 px-4 rounded-lg hover:bg-sky-500/20 transition-colors text-sm whitespace-nowrap">See Credential</a>
+                                </div>
+                                <!-- Certificate Card 3 -->
+                                <div class="flex items-center gap-4 p-4 bg-slate-900 rounded-lg shadow-sm border border-slate-700">
+                                    <img src="https://raw.githubusercontent.com/XVORD/portfolio-assets/cognitive.jfif" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1d4ed8/ffffff?text=IBM';" alt="IBM Logo" class="w-12 h-12 rounded-full bg-white">
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-slate-100">Machine Learning with Python</h4>
+                                        <p class="text-sm text-slate-400">Cognitive Class &middot; Issued Mar 2025</p>
+                                    </div>
+                                    <a href="IBM ML.pdf" target="_blank" class="bg-sky-500/10 text-sky-400 font-semibold py-2 px-4 rounded-lg hover:bg-sky-500/20 transition-colors text-sm whitespace-nowrap">See Credential</a>
+                                </div>
+                                <!-- Certificate Card 4 -->
+                                <div class="flex items-center gap-4 p-4 bg-slate-900 rounded-lg shadow-sm border border-slate-700">
+                                    <img src="https://raw.githubusercontent.com/XVORD/portfolio-assets/main/logos/ibm.png" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1d4ed8/ffffff?text=IBM';" alt="IBM Logo" class="w-12 h-12 rounded-full bg-white">
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-slate-100">Enterprise Design Thinking Practitioner</h4>
+                                        <p class="text-sm text-slate-400">IBM &middot; Issued Feb 2025</p>
+                                    </div>
+                                    <a href="https://raw.githubusercontent.com/XVORD/portfolio-assets/IBM Design.pdf" target="_blank" class="bg-sky-500/10 text-sky-400 font-semibold py-2 px-4 rounded-lg hover:bg-sky-500/20 transition-colors text-sm whitespace-nowrap">See Credential</a>
+                                </div>
+                                <!-- Certificate Card 5 -->
+                                <div class="flex items-center gap-4 p-4 bg-slate-900 rounded-lg shadow-sm border border-slate-700">
+                                    <img src="https://raw.githubusercontent.com/XVORD/portfolio-assets/Cisco.png" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1495c4/ffffff?text=CS';" alt="Cisco Logo" class="w-12 h-12 rounded-full bg-white">
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-slate-100">CCNAv7: Switching, Routing, and Wireless Essentials</h4>
+                                        <p class="text-sm text-slate-400">Cisco &middot; Issued Dec 2024</p>
+                                    </div>
+                                    <a href="https://raw.githubusercontent.com/XVORD/portfolio-assets/CCNA-Switching.pdf" target="_blank" class="bg-sky-500/10 text-sky-400 font-semibold py-2 px-4 rounded-lg hover:bg-sky-500/20 transition-colors text-sm whitespace-nowrap">See Credential</a>
+                                </div>
+                                <!-- Certificate Card 6 -->
+                                <div class="flex items-center gap-4 p-4 bg-slate-900 rounded-lg shadow-sm border border-slate-700">
+                                    <img src="https://raw.githubusercontent.com/XVORD/portfolio-assets/Cisco.png" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1495c4/ffffff?text=CS';" alt="Cisco Logo" class="w-12 h-12 rounded-full bg-white">
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-slate-100">CCNAv7: Introduction to Networks</h4>
+                                        <p class="text-sm text-slate-400">Cisco &middot; Issued Dec 2024</p>
+                                    </div>
+                                    <a href="https://raw.githubusercontent.com/XVORD/portfolio-assets/CCNA-Introduction.pdf" target="_blank" class="bg-sky-500/10 text-sky-400 font-semibold py-2 px-4 rounded-lg hover:bg-sky-500/20 transition-colors text-sm whitespace-nowrap">See Credential</a>
+                                </div>
+                                <!-- Certificate Card 7 -->
+                                <div class="flex items-center gap-4 p-4 bg-slate-900 rounded-lg shadow-sm border border-slate-700">
+                                    <img src="https://raw.githubusercontent.com/XVORD/portfolio-assets/Matlab.jpg" onerror="this.onerror=null;this.src='https://placehold.co/48x48/0076a8/ffffff?text=MW';" alt="MathWorks Logo" class="w-12 h-12 rounded-full bg-white">
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-slate-100">Signal Processing Onramp</h4>
+                                        <p class="text-sm text-slate-400">MathWorks &middot; Issued Sep 2024</p>
+                                    </div>
+                                    <a href="https://raw.githubusercontent.com/XVORD/portfolio-assets/certificate.pdf" target="_blank" class="bg-sky-500/10 text-sky-400 font-semibold py-2 px-4 rounded-lg hover:bg-sky-500/20 transition-colors text-sm whitespace-nowrap">See Credential</a>
+                                </div>
+                                <!-- Certificate Card 8 -->
+                                <div class="flex items-center gap-4 p-4 bg-slate-900 rounded-lg shadow-sm border border-slate-700">
+                                    <img src="https://raw.githubusercontent.com/XVORD/portfolio-assets/Cisco.png" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1495c4/ffffff?text=CS';" alt="Cisco Logo" class="w-12 h-12 rounded-full bg-white">
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-slate-100">CCNAv7: Enterprise Networking, Security, and Automation</h4>
+                                        <p class="text-sm text-slate-400">Cisco &middot; Issued Jul 2024</p>
+                                    </div>
+                                    <a href="https://raw.githubusercontent.com/XVORD/portfolio-assets/CCNAV7.pdf" target="_blank" class="bg-sky-500/10 text-sky-400 font-semibold py-2 px-4 rounded-lg hover:bg-sky-500/20 transition-colors text-sm whitespace-nowrap">See Credential</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Konten Keahlian -->
+                        <div data-tab-content="skills" class="tab-content hidden">
+                            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-4 text-center md:text-left text-slate-100">Hard Skills</h3>
+                                    <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Python</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Java</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">C/C++</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">JavaScript</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">SQL & NoSQL</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Power BI</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Network Admin</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Cyber Security</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-4 text-center md:text-left text-slate-100">Soft Skills</h3>
+                                    <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Public Speaking</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Problem Solving</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Leadership</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Teamwork</span>
+                                        <span class="skill-chip px-4 py-2 rounded-lg font-semibold text-sm">Fast Learner</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Proyek -->
+        <section id="projects" class="py-24 pattern-bg fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16 text-slate-100">Projects</h2>
+                <div class="relative">
+                    <div id="project-slider-wrapper" class="overflow-hidden">
+                        <div id="project-slider" class="flex transition-transform duration-500 ease-in-out">
+                            <!-- Project cards will be injected here by JavaScript -->
+                        </div>
+                    </div>
+                    <button id="prev-project" class="absolute top-1/2 -translate-y-1/2 left-0 md:-left-12 bg-slate-700/50 backdrop-blur-sm rounded-full w-12 h-12 flex items-center justify-center shadow-md hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"><i class="fas fa-chevron-left text-white"></i></button>
+                    <button id="next-project" class="absolute top-1/2 -translate-y-1/2 right-0 md:-right-12 bg-slate-700/50 backdrop-blur-sm rounded-full w-12 h-12 flex items-center justify-center shadow-md hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"><i class="fas fa-chevron-right text-white"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pengalaman -->
+        <section id="experience" class="py-24 bg-slate-800 fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-8 text-slate-100">Experience & Organization</h2>
+                
+                <!-- Filter Buttons -->
+                <div id="experience-filters" class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-12">
+                    <button data-filter="all" class="filter-btn active">All</button>
+                    <button data-filter="work" class="filter-btn">Work Experience</button>
+                    <button data-filter="org" class="filter-btn">Organization</button>
+                </div>
+
+                <div class="relative max-w-4xl mx-auto">
+                    <!-- Garis Timeline Vertikal -->
+                    <div class="absolute left-8 top-0 h-full w-0.5 bg-slate-700"></div>
+                    
+                    <!-- Timeline Item 1: PT Indocyber (Work) -->
+                    <div class="relative pl-20 pb-12 timeline-item" data-category="work">
+                        <div class="timeline-dot"></div>
+                        <img src="indocyber.png" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e40af/ffffff?text=IGT';"
+                             alt="Logo PT Indocyber Global Teknologi" class="absolute left-[-24px] top-8 w-20 h-20 rounded-full shadow-lg border-4 border-slate-800">
+                        <div>
+                            <p class="text-sm font-semibold text-sky-400">June 2025 - Present</p>
+                            <h3 class="font-bold text-xl mb-2 text-slate-100">Data Engineer at Indocyber Global Technology</h3>
+                            <p class="text-slate-300">Developing and maintaining distributed data processing pipelines using PySpark and writing optimized SQL queries for analytics.</p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 2: Asisten Dosen (Work) -->
+                    <div class="relative pl-20 pb-12 timeline-item" data-category="work">
+                        <div class="timeline-dot"></div>
+                        <img src="logo ui.png" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/100x100/fdb927/092853?text=UI';"
+                             alt="Logo Universitas Indonesia" class="absolute left-[-24px] top-8 w-20 h-20 rounded-full shadow-lg border-4 border-slate-800">
+                        <div>
+                            <p class="text-sm font-semibold text-sky-400">Sept 2024 - Dec 2024</p>
+                            <h3 class="font-bold text-xl mb-2 text-slate-100">Computational Thinking Teaching Assistant</h3>
+                            <p class="text-slate-300">Taught fundamental concepts of computational thinking, including problem-solving strategies and algorithm design.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 3: KMK FTUI (Organization) -->
+                    <div class="relative pl-20 pb-12 timeline-item" data-category="org">
+                        <div class="timeline-dot"></div>
+                        <img src="logo kmk.jfif" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/100x100/9400d3/ffffff?text=KMK';"
+                             alt="Logo KMK FTUI" class="absolute left-[-24px] top-8 w-20 h-20 rounded-full shadow-lg border-4 border-slate-800">
+                        <div>
+                            <p class="text-sm font-semibold text-sky-400">Jan 2024 - Jan 2025</p>
+                            <h3 class="font-bold text-xl mb-2 text-slate-100">Vice President of KMK Teknik UI 2024</h3>
+                            <p class="text-slate-300">Led 20+ board members and 20+ staff, successfully running 30+ work programs and maintaining external relations.</p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 4: MABIM FTUI (Organization) -->
+                    <div class="relative pl-20 pb-12 timeline-item" data-category="org">
+                        <div class="timeline-dot"></div>
+                        <img src="sc.png" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/100x100/ff4500/ffffff?text=MB';"
+                             alt="Logo MABIM FTUI" class="absolute left-[-24px] top-8 w-20 h-20 rounded-full shadow-lg border-4 border-slate-800">
+                        <div>
+                            <p class="text-sm font-semibold text-sky-400">Mar 2024 - Nov 2024</p>
+                            <h3 class="font-bold text-xl mb-2 text-slate-100">Steering Comitee at Masa Bimbingan 2024</h3>
+                            <p class="text-slate-300">Led a team of 30 members, coordinated events, delegated tasks, and managed timelines for student orientation activities.</p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 5: IEEE (Organization) -->
+                    <div class="relative pl-20 timeline-item" data-category="org">
+                        <div class="timeline-dot"></div>
+                        <img src="ieee.png" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/100x100/00629b/ffffff?text=IEEE';"
+                             alt="Logo IEEE" class="absolute left-[-24px] top-8 w-20 h-20 rounded-full shadow-lg border-4 border-slate-800">
+                        <div>
+                             <p class="text-sm font-semibold text-sky-400">Mar 2023 - Feb 2024</p>
+                            <h3 class="font-bold text-xl mb-2 text-slate-100">Seminar Staff at IEEE SBUI 2023</h3>
+                            <p class="text-slate-300">Planned and arranged 3 online seminars (Data Science, IoT, Machine Learning) with an average of 100+ attendees.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tombol Volunteer Journey -->
+                <div class="text-center mt-16">
+                    <button id="volunteer-modal-trigger" class="bg-emerald-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-emerald-600 transition-all shadow-lg">
+                        <i class="fas fa-hands-helping mr-2"></i>View My Volunteering Journey
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements -->
+        <section id="achievements" class="py-24 pattern-bg fade-in-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16 text-slate-100">Achievements & Awards</h2>
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-slate-800 rounded-xl overflow-hidden custom-shadow">
+                        <img src="winner.jpg" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/800x450/a78bfa/ffffff?text=Achievement+Photo';"
+                             alt="Foto Penghargaan" class="w-full h-auto object-cover">
+                        <div class="achievement-card-content text-white p-8 text-center">
+                            <div class="text-6xl mb-4">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <p class="font-semibold text-sky-200">2025</p>
+                            <h3 class="font-bold text-2xl mb-2">1st Place Winner</h3>
+                            <p class="text-lg text-slate-100">Project Management Challenge 2025 by Project Management Institute Indonesia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kontak -->
+        <section id="contact" class="py-24 bg-slate-800 fade-in-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-slate-100">Contact Me</h2>
+                    <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">Have a question or a collaboration proposal? Feel free to send me a message using the form below.</p>
+                </div>
+                <div class="max-w-2xl mx-auto mt-12 bg-slate-900 p-8 rounded-xl shadow-lg">
+                    <form id="contact-form" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-slate-300">Full Name</label>
+                            <input type="text" name="name" id="name" required class="mt-1 block w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 text-slate-100">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-slate-300">Email Address</label>
+                            <input type="email" name="email" id="email" required class="mt-1 block w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 text-slate-100">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-slate-300">Message</label>
+                            <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 text-slate-100"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="w-full md:w-auto inline-flex justify-center py-3 px-12 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                    <div id="success-message" class="hidden mt-6 p-4 text-center text-green-300 bg-green-900/50 rounded-md">
+                        <p>Your message has been sent successfully! Thank you for reaching out.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://www.linkedin.com/in/christophersatya/" target="_blank" class="text-slate-400 hover:text-sky-400 transition-colors text-2xl"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/XVORD" target="_blank" class="text-slate-400 hover:text-sky-400 transition-colors text-2xl"><i class="fab fa-github"></i></a>
+                <a href="mailto:christophersatya4@gmail.com" class="text-slate-400 hover:text-sky-400 transition-colors text-2xl"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p class="text-sm">&copy; 2024 Christopher Satya F.B. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Tombol Scroll to Top -->
+    <button id="to-top-button" title="Go To Top"
+        class="hidden fixed z-50 bottom-10 right-10 p-4 border-0 w-14 h-14 rounded-full shadow-lg bg-sky-500 hover:bg-sky-600 text-white text-lg font-semibold transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Modal untuk Detail Proyek -->
+    <div id="project-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div id="modal-content" class="bg-slate-800 text-slate-200 rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform transition-transform duration-300 scale-95">
+            <!-- Konten modal akan diisi oleh JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Modal untuk Volunteer Journey -->
+    <div id="volunteer-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 text-slate-200 rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-transform duration-300 scale-95">
+            <div class="p-6 border-b border-slate-700">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-slate-100">Volunteering Journey</h3>
+                    <button id="close-volunteer-modal-button" class="text-slate-400 hover:text-white text-2xl">&times;</button>
+                </div>
+            </div>
+            <div class="p-6 space-y-8 overflow-y-auto">
+                <!-- Volunteer Item 1 -->
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <img src="Natal.JPG" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Volunteer+Event+2';"
+                         alt="PIC of Design" class="w-full sm:w-1/3 h-auto rounded-lg object-cover">
+                    <div>
+                        <p class="text-sm font-semibold text-sky-400">Jan - Dec 2023</p>
+                        <h4 class="text-xl font-bold text-slate-100 mt-1">Natal KMK UI 2023</h4>
+                        <p class="mt-2 text-slate-300">Led the design team in conceptualizing and producing all visual content for the event, ensuring consistency with the event’s theme and branding. Collaborated with cross-functional teams to integrate creative designs into promotional materials and event assets. Oversaw the entire design process from initial concept to final execution, ensuring timely delivery and high visual quality. Fostered a collaborative and creative team environment to successfully meet all design objectives.</p>
+                    </div>
+                </div>
+                 <div class="flex flex-col sm:flex-row gap-6">
+                    <img src="aksos.jpg" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Volunteer+Event+2';"
+                         alt="Head of logistics" class="w-full sm:w-1/3 h-auto rounded-lg object-cover">
+                    <div>
+                        <p class="text-sm font-semibold text-sky-400">Mar - May 2023</p>
+                        <h4 class="text-xl font-bold text-slate-100 mt-1">Aksi Sosial KMK TEKNIK UI 2023</h4>
+                        <p class="mt-2 text-slate-300">Dedicated my time to support the daily operations at Panti Asuhan dan SLB Elsafan. My role focused on ensuring a smooth and safe environment by managing logistics, coordinating transportation for school runs and appointments, and assisting with facility maintenance. This hands-on experience was a humbling reminder of the importance of community support and operational efficiency in creating a positive impact.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <img src="WE23.png" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/ec4899/ffffff?text=WKMK+2023';"
+                         alt="Weekend KMK 2023" class="w-full sm:w-1/3 h-auto rounded-lg object-cover">
+                    <div>
+                        <p class="text-sm font-semibold text-sky-400">May - Sept 2023</p>
+                        <h4 class="text-xl font-bold text-slate-100 mt-1">Vice Project Officer - Weekend KMK FTUI 2023</h4>
+                        <p class="mt-2 text-slate-300">Served as vice project lead for a welcoming event for 103 new Catholic students at the Faculty of Engineering, UI. Responsibilities included supporting the project lead, overseeing logistics, delegating tasks, and ensuring efficient resource management for a smooth event.</p>
+                    </div>
+                </div>
+                <!-- Volunteer Item 2 -->
+                 <div class="flex flex-col sm:flex-row gap-6">
+                    <img src="SBKMK UI.jpg" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Volunteer+Event+2';"
+                         alt="Group Facilitator" class="w-full sm:w-1/3 h-auto rounded-lg object-cover">
+                    <div>
+                        <p class="text-sm font-semibold text-sky-400">Jul - Aug 2023</p>
+                        <h4 class="text-xl font-bold text-slate-100 mt-1">SBKMK UI 2023</h4>
+                        <p class="mt-2 text-slate-300">Mentored and guided a group of 24 students in developing leadership, communication, and problem-solving skills during LKTD (Leadership Training and Development) KMK UI 2023. Built a supportive and collaborative group dynamic through strategic facilitation, personalized feedback, and engaging activities.</p>
+                    </div>
+                </div>
+                 <div class="flex flex-col sm:flex-row gap-6">
+                    <img src="Retret23.jpg" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Volunteer+Event+2';"
+                         alt="Event Staff" class="w-full sm:w-1/3 h-auto rounded-lg object-cover">
+                    <div>
+                        <p class="text-sm font-semibold text-sky-400">Jun - Sep 2023</p>
+                        <h4 class="text-xl font-bold text-slate-100 mt-1">Retret KMK UI 2023</h4>
+                        <p class="mt-2 text-slate-300">Supported the planning and execution of the annual retreat organized by the Catholic Student Community of the Faculty of Engineering. Worked closely with the organizing committee to coordinate logistics, manage event flow, and ensure smooth transitions between sessions. Assisted in setting up venues, welcoming participants, and handling on-site needs to create a meaningful and well-structured spiritual experience.</p>
+                    </div>
+                </div>
+                 <div class="flex flex-col sm:flex-row gap-6">
+                    <img src="OKKUI23.jpg" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Volunteer+Event+2';"
+                         alt="Student Mentor" class="w-full sm:w-1/3 h-auto rounded-lg object-cover">
+                    <div>
+                        <p class="text-sm font-semibold text-sky-400">Jul - Aug 2023</p>
+                        <h4 class="text-xl font-bold text-slate-100 mt-1">Orientasi Kehidupan Kampus UI 2023</h4>
+                        <p class="mt-2 text-slate-300">Providing a materials and assignments for the freshmens to introduce campus life and adaptation in a new environment. Sucessfully leading 18 Freshmens completed OKK UI 2023.</p>
+                    </div>
+                </div>
+                 <div class="flex flex-col sm:flex-row gap-6">
+                    <img src="echa.jpg" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Volunteer+Event+2';"
+                         alt="Equipment Staff" class="w-full sm:w-1/3 h-auto rounded-lg object-cover">
+                    <div>
+                        <p class="text-sm font-semibold text-sky-400">Jul - Oct 2023</p>
+                        <h4 class="text-xl font-bold text-slate-100 mt-1">Elektro Charity 2023</h4>
+                        <p class="mt-2 text-slate-300">Assisted in managing logistics and technical equipment during a charitable event organized by the Department of Electrical Engineering student association. Responsibilities included inventory tracking, equipment setup and teardown, and ensuring all tools and devices were in proper working condition. Collaborated with the operations team to support smooth event execution and maintain an organized equipment flow throughout the program.</p>
+                    </div>
+                </div>
+                 <div class="flex flex-col sm:flex-row gap-6">
+                    <img src="SBKMK UI 24.jpg" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/f59e0b/ffffff?text=Volunteer+Event+2';"
+                         alt="Group Facilitator" class="w-full sm:w-1/3 h-auto rounded-lg object-cover">
+                    <div>
+                        <p class="text-sm font-semibold text-sky-400">Jul - Sep 2024</p>
+                        <h4 class="text-xl font-bold text-slate-100 mt-1">SBKMK UI 2024</h4>
+                        <p class="mt-2 text-slate-300">Mentored and guided a group of 24 students in developing leadership, communication, and problem-solving skills during LKTD (Leadership Training and Development) KMK UI 2023. Built a supportive and collaborative group dynamic through strategic facilitation, personalized feedback, and engaging activities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- PANDUAN GITHUB ---
+        const GITHUB_USER = 'XVORD';
+        const GITHUB_REPO = 'portfolio-assets';
+        const GITHUB_BRANCH = 'main';
+        const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
+
+        // --- DATA PROYEK ---
+        const projectDetails = {
+            jbus: {
+                title: "Project JBus",
+                image: `JBUS Project.png`,
+                repoUrl: "https://github.com/XVORD/jbus-project",
+                description: "Led the development of a bus ticketing system for Android using Java and Android Studio. Demonstrated expertise in mobile app development, emphasizing a user-friendly interface and efficient booking system.",
+                tags: ["Java", "Android Studio", "Mobile Development"],
+                tools: ["fab fa-java", "fab fa-android"]
+            },
+            trackit: {
+                title: "Project Track-It",
+                image: `TrackIt.png`,
+                repoUrl: "https://github.com/XVORD/trackit-project",
+                description: "Executed the role of Backend Developer for Track-It, a gamified To-Do list website. Utilized NoSQL database, Node.js framework and MongoDB for efficient database management, ensuring seamless backend operations.",
+                tags: ["Node.js", "MongoDB", "NoSQL", "Backend"],
+                tools: ["fab fa-node-js", "fas fa-database"]
+            },
+            aerolyze: {
+                title: "Project Aerolyze",
+                image: `Aerolyze.png`,
+                repoUrl: "https://github.com/XVORD/aerolyze-project",
+                description: "A real-time hazardous gas detection system with MQ-2 sensor and WhatsApp notification using bot. Developed using ESP32 and MQ-2 with C++.",
+                tags: ["IoT", "ESP32", "C++", "Sensor"],
+                tools: ["fas fa-microchip", "fab fa-whatsapp"]
+            },
+            uistride: {
+                title: "Project UIStride",
+                image: `UIStride.png`,
+                repoUrl: "https://github.com/XVORD/uistride-project",
+                description: "Executed the role of UI/UX designer and creating backend logic with Golang. Integrating the features such as distance, step counting, rewards, and maps.",
+                tags: ["UI/UX Design", "Android", "Backend", "Golang"],
+                tools: ["fab fa-android", "fab fa-golang", "fas fa-palette"]
+            },
+            websecurity: {
+                title: "Website Security Implementation",
+                image: `Kemjar.png`,
+                repoUrl: "https://github.com/XVORD/websecurity-project",
+                description: "Contributed to a secure website development project by implementing cybersecurity tools such as OWASP ZAP, Snort, and LOIC. Emphasized commitment to cybersecurity best practices.",
+                tags: ["Cyber Security", "OWASP ZAP", "Snort", "Network Security"],
+                tools: ["fas fa-shield-halved", "fas fa-bug"]
+            },
+            plantwatering: {
+                title: "Automatic Plant Watering System",
+                image: `dry.png`,
+                repoUrl: "https://github.com/XVORD/plantwatering-project",
+                description: "An automatic plant watering system. Developed using Arduino ATmega328p and a moisture sensor, showcasing a proficiency in assembly language programming for optimal performance.",
+                tags: ["IoT", "Arduino", "Assembly", "Hardware"],
+                tools: ["fas fa-microchip", "fas fa-leaf"]
+            },
+            dataviz: {
+                title: "ShuttleGuard Pro",
+                image: `VHDL.png`,
+                repoUrl: "https://github.com/XVORD/shuttleguard-pro",
+                description: "A VHDL-based system to assist table tennis umpires with scorekeeping and service rules, implemented on an FPGA.",
+                tags: ["VHDL", "FPGA", "Hardware Design"],
+                tools: ["fas fa-microchip", "fas fa-table-tennis-paddle-ball"]
+            },
+            mlmodel: {
+                title: "SoundLedger",
+                image: `Soundledger.png`,
+                repoUrl: "https://github.com/XVORD/soundledger-project",
+                description: "A proof-of-concept for a blockchain-based system to securely record and verify audio files, ensuring data integrity and ownership.",
+                tags: ["Blockchain", "Solidity", "Web3"],
+                tools: ["fab fa-ethereum", "fas fa-cube", "fas fa-file-audio"]
+            },
+            portfolio: {
+                title: "Faster R-CNN Object Detection",
+                image: `Faster R-CNN model.png`,
+                repoUrl: "https://github.com/XVORD/faster-rcnn-model",
+                description: "An object detection model implemented using the Faster R-CNN architecture to identify and locate objects in images, built with Python and PyTorch.",
+                tags: ["Machine Learning", "Python", "PyTorch", "AI"],
+                tools: ["fab fa-python", "fas fa-brain", "fas fa-camera"]
+            }
+        };
+
+        // --- LOGIKA SLIDER PROYEK ---
+        const projectSlider = document.getElementById('project-slider');
+        const prevProjectBtn = document.getElementById('prev-project');
+        const nextProjectBtn = document.getElementById('next-project');
+        let projectIndex = 0;
+
+        function createProjectCards() {
+            const projects = Object.keys(projectDetails);
+            projects.forEach(key => {
+                const p = projectDetails[key];
+                const card = document.createElement('div');
+                card.className = 'flex-shrink-0 w-full md:w-1/2 lg:w-1/3 p-4';
+                card.innerHTML = `
+                    <div class="bg-slate-800 rounded-xl overflow-hidden custom-shadow h-full flex flex-col relative">
+                        <div class="cursor-pointer" data-modal-trigger data-project-id="${key}">
+                            <img src="${p.image}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/818cf8/ffffff?text=Project+Image';" alt="Gambar ${p.title}" class="w-full h-48 object-cover">
+                            <div class="p-6 flex-grow flex flex-col">
+                                <h3 class="font-bold text-xl mb-2 text-slate-100">${p.title}</h3>
+                                <p class="text-slate-400 text-sm flex-grow">${p.description.substring(0, 100)}...</p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 mt-auto">
+                            <div class="pt-4 border-t border-slate-700">
+                                <p class="text-xs font-semibold text-slate-500 mb-2">Tools & Skills:</p>
+                                <div class="flex flex-wrap gap-3 items-center">
+                                    ${p.tools.map(tool => `<i class="${tool} text-sky-400 text-xl" title="${tool.split(' ')[1].replace('fa-', '')}"></i>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <a href="${p.repoUrl}" target="_blank" onclick="event.stopPropagation()" class="absolute top-4 right-4 bg-slate-900/50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-900 transition-colors" title="View Repository">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                `;
+                projectSlider.appendChild(card);
+            });
+        }
+        
+        function updateSlider() {
+            const cardWidth = projectSlider.querySelector('.flex-shrink-0').offsetWidth;
+            projectSlider.style.transform = `translateX(-${projectIndex * cardWidth}px)`;
+            prevProjectBtn.disabled = projectIndex === 0;
+            const visibleCards = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+            nextProjectBtn.disabled = projectIndex >= Object.keys(projectDetails).length - visibleCards;
+        }
+
+        prevProjectBtn.addEventListener('click', () => {
+            projectIndex--;
+            updateSlider();
+        });
+
+        nextProjectBtn.addEventListener('click', () => {
+            projectIndex++;
+            updateSlider();
+        });
+        
+        createProjectCards();
+        updateSlider();
+        window.addEventListener('resize', updateSlider);
+
+
+        // --- LOGIKA FILTER PENGALAMAN ---
+        const filterContainer = document.getElementById('experience-filters');
+        const timelineItems = document.querySelectorAll('.timeline-item');
+
+        filterContainer.addEventListener('click', (e) => {
+            const target = e.target;
+            if (target.matches('.filter-btn')) {
+                filterContainer.querySelector('.active').classList.remove('active');
+                target.classList.add('active');
+
+                const filterValue = target.dataset.filter;
+
+                timelineItems.forEach(item => {
+                    const itemCategory = item.dataset.category;
+                    const shouldBeVisible = filterValue === 'all' || filterValue === itemCategory;
+                    
+                    if (shouldBeVisible) {
+                        item.style.display = 'flex'; // Use flex for proper alignment
+                        setTimeout(() => { item.style.opacity = '1'; item.style.transform = 'scale(1)'; }, 10);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.95)';
+                        setTimeout(() => { item.style.display = 'none'; }, 400);
+                    }
+                });
+            }
+        });
+
+        // --- LOGIKA TABS TENTANG SAYA ---
+        const tabsContainer = document.getElementById('about-tabs');
+        const tabsContent = document.getElementById('about-tabs-content');
+
+        tabsContainer.addEventListener('click', (e) => {
+            const target = e.target;
+            if (target.matches('.tab-btn')) {
+                tabsContainer.querySelector('.active').classList.remove('active');
+                Array.from(tabsContent.children).forEach(child => child.classList.add('hidden'));
+                target.classList.add('active');
+                const tabId = target.dataset.tab;
+                const contentToShow = tabsContent.querySelector(`[data-tab-content="${tabId}"]`);
+                if (contentToShow) {
+                    contentToShow.classList.remove('hidden');
+                }
+            }
+        });
+        
+        // --- LOGIKA MODAL ---
+        const projectModal = document.getElementById('project-modal');
+        const projectModalContent = document.getElementById('modal-content');
+        const volunteerModalTrigger = document.getElementById('volunteer-modal-trigger');
+        const volunteerModal = document.getElementById('volunteer-modal');
+        const closeVolunteerModalButton = document.getElementById('close-volunteer-modal-button');
+
+        // Project Modal Logic
+        projectSlider.addEventListener('click', (e) => {
+            const card = e.target.closest('[data-modal-trigger]');
+            if (card) {
+                const projectId = card.dataset.projectId;
+                const details = projectDetails[projectId];
+                
+                if (details) {
+                    projectModalContent.innerHTML = `
+                        <div class="p-4 sm:p-6">
+                            <img src="${details.image}" onerror="this.onerror=null;this.src='https://placehold.co/800x500/818cf8/ffffff?text=Project+Image';" alt="Gambar ${details.title}" class="w-full h-64 object-cover rounded-lg mb-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-2xl font-bold text-slate-100">${details.title}</h3>
+                                <button id="close-project-modal-button" class="text-slate-400 hover:text-white text-2xl">&times;</button>
+                            </div>
+                            <p class="text-slate-300 mb-6">${details.description}</p>
+                            <div class="flex flex-wrap items-center justify-between gap-4">
+                                <div class="flex flex-wrap gap-2">
+                                    ${details.tags.map(tag => `<span class="skill-chip px-3 py-1 rounded-md font-semibold text-sm">${tag}</span>`).join('')}
+                                </div>
+                                <a href="${details.repoUrl}" target="_blank" class="bg-slate-700 text-white font-semibold py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors">
+                                    <i class="fab fa-github mr-2"></i>View Repository
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    
+                    projectModal.classList.remove('hidden');
+                    document.body.classList.add('modal-open');
+                    
+                    document.getElementById('close-project-modal-button').addEventListener('click', closeProjectModal);
+
+                    setTimeout(() => {
+                        projectModalContent.classList.remove('scale-95');
+                    }, 10);
+                }
+            }
+        });
+
+        function closeProjectModal() {
+            projectModalContent.classList.add('scale-95');
+            setTimeout(() => {
+                projectModal.classList.add('hidden');
+                if (volunteerModal.classList.contains('hidden')) {
+                   document.body.classList.remove('modal-open');
+                }
+            }, 300);
+        }
+        
+        // Volunteer Modal Logic
+        function openVolunteerModal() {
+            volunteerModal.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+            setTimeout(() => {
+                volunteerModal.querySelector('div[class*="transform"]').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeVolunteerModal() {
+            volunteerModal.querySelector('div[class*="transform"]').classList.add('scale-95');
+            setTimeout(() => {
+                volunteerModal.classList.add('hidden');
+                 if (projectModal.classList.contains('hidden')) {
+                   document.body.classList.remove('modal-open');
+                }
+            }, 300);
+        }
+
+        volunteerModalTrigger.addEventListener('click', openVolunteerModal);
+        closeVolunteerModalButton.addEventListener('click', closeVolunteerModal);
+
+        // Close modal logic
+        projectModal.addEventListener('click', (e) => { if (e.target === projectModal) closeProjectModal(); });
+        volunteerModal.addEventListener('click', (e) => { if (e.target === volunteerModal) closeVolunteerModal(); });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") {
+                if (!projectModal.classList.contains('hidden')) closeProjectModal();
+                if (!volunteerModal.classList.contains('hidden')) closeVolunteerModal();
+            }
+        });
+
+
+        // --- SCRIPT LAINNYA (TIDAK BERUBAH) ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelectorAll('#mobile-menu a');
+        mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+        navLinks.forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); }); });
+
+        const sections = document.querySelectorAll('.fade-in-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        sections.forEach(section => { observer.observe(section); });
+        
+        const toTopButton = document.getElementById('to-top-button');
+        window.onscroll = function () {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                toTopButton.classList.remove("hidden");
+            } else {
+                toTopButton.classList.add("hidden");
+            }
+        };
+        toTopButton.onclick = function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+        
+        const contactForm = document.getElementById('contact-form');
+        const successMessage = document.getElementById('success-message');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            successMessage.classList.remove('hidden');
+            contactForm.reset();
+            setTimeout(() => { successMessage.classList.add('hidden'); }, 5000);
+        });
+
+    </script>
+</body>
+</html>
